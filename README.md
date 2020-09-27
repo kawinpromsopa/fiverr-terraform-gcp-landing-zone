@@ -28,8 +28,8 @@
 - Create Project
 - Which services to enable API [How to Enabling API Services](https://support.google.com/googleapi/answer/6158841?hl=en)
    - Compute Engine API
-- Gcloud installation [How to Install gcloud-cli](https://cloud.google.com/sdk/docs/install)
-- Gcloud authentication
+- GCloud installation [How to Install gcloud-cli](https://cloud.google.com/sdk/docs/install)
+- GCloud authentication
 
 ```
 gcloud auth application-default login
