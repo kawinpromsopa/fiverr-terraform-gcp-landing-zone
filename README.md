@@ -105,7 +105,7 @@ terraform apply -var-file="./workspace/non-prod.tfvars" -target="module.gce"
 - Delete for each resource that has provisioned
 
 ```
-tf destroy -var-file="./workspace/non-prod.tfvars" -target="module.gce"
+terraform destroy -var-file="./workspace/non-prod.tfvars" -target="module.gce"
 ```
 
 - Delete all of resources that has provisioned

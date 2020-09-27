@@ -36,7 +36,7 @@ module "compute_instance" {
 
 ## Allow SSH
 resource "google_compute_firewall" "ssh" {
-  name    = "firewall-${var.project_id}"
+  name    = var.project_id 
   network = var.network_name
 
   allow {
