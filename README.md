@@ -25,10 +25,11 @@
 
 #### Requirement
 
-- Create profile GCP
-- Enable API resource services follow [link](https://support.google.com/googleapi/answer/6158841?hl=en)
-- Need to loing for run terraform by using gcloud auth as instructions for install just follow [link](https://cloud.google.com/sdk/docs/install)
-- After installed when need to run terrafrom
+- Create Project
+- Which services to enable API [How to Enabling API Services](https://support.google.com/googleapi/answer/6158841?hl=en)
+   - Compute Engine API
+- Gcloud installation [How to Install gcloud-cli](https://cloud.google.com/sdk/docs/install)
+- Gcloud authentication
 
 ```
 gcloud auth application-default login
@@ -36,26 +37,44 @@ gcloud auth application-default login
 
 #### Usage
 
-- ./workspace/non-prod.tfvars
+- Custom values into file `./workspace/non-prod.tfvars`
 
 ```
-### vpc-network-setting
-project_id    = "tfgcp-290508"
-network_name  = "phase-one"
-project_name  = "phase-one"
-vpc_region    = "us-west1"
+# vpc network
+project_id    = "temporary-290812"
+project_name  = "temporary"
+network_name  = "temporary-network"
+vpc_region    = "asia-southeast1"
 
+subnets = [
+  {
+    subnet_name           = "temporary-subnet-01"
+    subnet_ip             = "10.10.10.0/24"
+    subnet_region         = "asia-southeast1"
+  },
+  {
+    subnet_name           = "temporary-subnet-02"
+    subnet_ip             = "10.10.20.0/24"
+    subnet_region         = "asia-southeast1"
+    subnet_private_access = "true"
+  },
+  {
+    subnet_name           = "temporary-subnet-03"
+    subnet_ip             = "10.10.30.0/24"
+    subnet_region         = "asia-southeast1"
+    subnet_private_access = "true"
+  }
+]
 
-### compute setting
-project_id    = "tfgcp-290508"
-subnetwork    = "phase-one-subnet-01"
-region        = "us-west1"
-num_instances = 1
-subnetwork_project  = "tfgcp-290508"
-network_name        = "phase-one"
+# google cloud compute
+subnetwork_project  = "temporary-290812"
+subnetwork          = "temporary-subnet-01"
+region              = "asia-southeast1"
+instance_name       = "temporary"
+num_instances       = 1
 machine_type        = "n1-standard-1"
 source_image_family = "ubuntu-1804-lts"
-disk_size_gb        = "15"
+disk_size_gb        = "20"
 
 ```
 
@@ -67,12 +86,29 @@ terraform init
 
 #### Terraform apply
 
+- Create VPC Network
+
 ```
-terraform apply -var-file="./workspace/non-prod.tfvars"
+terraform apply -var-file="./workspace/non-prod.tfvars" -target="module.vpc"
+```
+
+- Create Compute Engine
+
+```
+terraform apply -var-file="./workspace/non-prod.tfvars" -target="module.gce"
 ```
 
 #### Terraform destroy
 
+- Delete for each resource that has provisioned
+
+```
+tf destroy -var-file="./workspace/non-prod.tfvars" -target="module.gce"
+```
+
+- Delete all of resources that has provisioned
+
 ```
 terraform destroy -var-file="./workspace/non-prod.tfvars"
 ```
+
