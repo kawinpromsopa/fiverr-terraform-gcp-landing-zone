@@ -16,7 +16,7 @@ variable "network_name" {
 
 variable "routing_mode" {
   type        = string
-  default     = "GLOBAL"
+  default     = "REGIONAL"
   description = "The network routing mode (default 'GLOBAL')"
 }
 
