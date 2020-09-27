@@ -15,8 +15,16 @@
  */
 
 provider "google" {
+  version = "~> 3.3.0"
+  project     = var.project_id
+  region      = var.region
+}
 
-  version = "~> 3.0"
+## https://www.terraform.io/docs/providers/google/r/compute_address.html
+
+resource "google_compute_address" "static" {
+  project = var.project_id
+  name = "ipv4-address"
 }
 
 module "instance_template" {
@@ -25,7 +33,7 @@ module "instance_template" {
   project_id      = var.project_id
   subnetwork      = var.subnetwork
   subnetwork_project = var.subnetwork_project
-  //service_account = var.service_account
+  # service_account = var.service_account
 }
 
 module "compute_instance" {
@@ -33,11 +41,29 @@ module "compute_instance" {
   region            = var.region
   subnetwork        = var.subnetwork
   num_instances     = var.num_instances
+
   hostname          = "instance-simple"
   subnetwork_project = var.subnetwork_project
   instance_template = module.instance_template.self_link
-  # access_config = [{
-  #   nat_ip       = var.nat_ip
-  #   network_tier = var.network_tier
-  # }, ]
+  access_config = [{
+    nat_ip       = google_compute_address.static.address
+    network_tier = var.network_tier
+  }, ]
+}
+
+## Allow SSH
+resource "google_compute_firewall" "firewall-ssh" {
+  name    = "firewall-${var.project_id}"
+  network = var.network_name
+
+  allow {
+    protocol = "icmp"
+  }
+
+  allow {
+    protocol = "tcp"
+    ports    = ["22"]
+  }
+
+  source_ranges = ["0.0.0.0/0"]
 }
