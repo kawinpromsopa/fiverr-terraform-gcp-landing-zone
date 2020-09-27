@@ -80,6 +80,8 @@ disk_size_gb        = "20"
 
 #### Terraform Init
 
+- Run terraform `init`, `apply`, `destroy` on root directory
+
 ```
 terraform init
 ```
