@@ -25,10 +25,10 @@
 
 #### Requirement
 
+- Create profile GCP
+- Enable API resource services follow [link](https://support.google.com/googleapi/answer/6158841?hl=en)
 - Need to loing for run terraform by using gcloud auth as instructions for install just follow [link](https://cloud.google.com/sdk/docs/install)
-- create profile gcp
-- enable api follow [link](https://support.google.com/googleapi/answer/6158841?hl=en)
-- After install when need to run terrafrom
+- After installed when need to run terrafrom
 
 ```
 gcloud auth application-default login
