@@ -6,9 +6,10 @@ module "vpc" {
 }
 
 module "gce" {
-  source          = "./modules/compute"
-  project_id      = var.project_id
-  region          = var.region
+  source              = "./modules/compute"
+  project_id          = var.project_id
+  region              = var.region
+  network_name        = var.network_name
   subnetwork          = var.subnetwork
   subnetwork_project  = var.subnetwork_project
   instance_name       = var.instance_name
